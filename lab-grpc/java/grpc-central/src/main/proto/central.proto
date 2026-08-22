@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package central;
+
+option java_package = "br.pucminas.labdamd.central";
+option java_multiple_files = true;
+option java_outer_classname = "CentralProto";
+
+service CentralAtendimento {
+  // RPC unário: uma pergunta, uma resposta - "parece" uma chamada de função comum
+  rpc ConsultarHorario (PerguntaHorario) returns (RespostaHorario);
+
+  // RPC com streaming de servidor: uma inscrição, várias respostas ao longo do tempo
+  rpc AcompanharAvisos (InscricaoAvisos) returns (stream Aviso);
+}
+
+message PerguntaHorario {
+  string nome_aluno = 1;
+}
+
+message RespostaHorario {
+  string horario_atual = 1;
+  string mensagem = 2;
+}
+
+message InscricaoAvisos {
+  string nome_aluno = 1;
+}
+
+message Aviso {
+  int32 numero = 1;
+  string texto = 2;
+}
